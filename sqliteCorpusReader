@@ -1,0 +1,19 @@
+class SqliteCorpusReader(object):
+    
+    def __init__(self, path):
+        self._cur = sqlite3.connect(path).cursor()
+    
+    def ids(self):
+        self._cur.execute("select level_0 from wine_data")
+        for idx in iter(self._cur.fetchone, None):
+            yield idx
+            
+    def score(self):
+        self._cur.execute("select rating from wine_data")
+        for score in iter(self._cur.fetchone, None):
+            yield score
+    
+    def texts(self):
+        self._cur.execute("select description from wine_data")
+        for text in iter(self._cur.fetchone, None):
+            yield text
